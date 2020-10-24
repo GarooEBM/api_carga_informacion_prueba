@@ -26,6 +26,7 @@ export class UsuariosController {
 
     // Insertar usuarios
     // @Post()
+    // Uso de Interceptor para lectura del archivo
     // @UseInterceptors(FilesInterceptor('file'))
     // async crearUsuario(@UploadedFiles() file) {
     //     console.log(file);

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DbModule } from './modulos/db/db.module';
 import { UsuariosController } from './controladores/usuarios/usuarios.controller';
 import { UsuariosService } from './servicios/usuarios/usuarios.service';
 import { ArchivoService } from './servicios/archivo/archivo.service';
 import { UsuarioModule } from './modulos/usuario/usuario.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RolModule } from './modulos/rol/rol.module';
 
 @Module({
   imports: [
@@ -23,8 +23,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UsuarioModule],
+    UsuarioModule,
+    RolModule],
   controllers: [AppController],
-  providers: [AppService, ArchivoService],
+  providers: [AppService],
 })
 export class AppModule {}
