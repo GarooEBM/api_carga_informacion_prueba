@@ -1,26 +1,39 @@
-import { Controller, Get, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { CrearUsuarioDto } from 'src/dtos/usuario.dto';
+import { UsuariosService } from 'src/servicios/usuarios/usuarios.service';
 
 @Controller('usuarios')
 export class UsuariosController {
 
+    constructor(
+        private readonly usuariosService: UsuariosService
+    ) {}
+
     // Obtener todos los usuarios
     @Get()
     async obtenerUsuarios(){
-        return `Todos los usuarios`;
+        return await this.usuariosService.getAll();
     }
 
     // Obtener la información de un usuario especifico
-    @Get()
-    async infoUsuario() {
-        return `Informacion de un usuario`;
+    @Get(':id')
+    async infoUsuario(@Param('id', ParseIntPipe) id:number) {
+        const data = await this.usuariosService.getById(id)
+
+        return {data};
     }
 
     // Insertar usuarios
+    // @Post()
+    // @UseInterceptors(FilesInterceptor('file'))
+    // async crearUsuario(@UploadedFiles() file) {
+    //     console.log(file);
+    //     return `Crear usuarios`
+    // }
+
     @Post()
-    @UseInterceptors(FilesInterceptor('file'))
-    async crearUsuario(@UploadedFiles() file) {
-        console.log(file);
-        return `Crear usuarios`
+    async crearUsuario(@Body() dto: CrearUsuarioDto) {
+        return this.usuariosService.crearUsuario(dto);
     }
 }
